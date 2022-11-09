@@ -1,5 +1,7 @@
+import { Sequelize } from 'sequelize';
+import { dataSourceOptions } from '../../conf/datasource';
+const sequelize = new Sequelize(dataSourceOptions);
 export class MenuItemsService {
-
   /* TODO: complete getMenuItems so that it returns a nested menu structure
     Requirements:
     - your code should result in EXACTLY one SQL query no matter the nesting level or the amount of menu items.
@@ -76,6 +78,14 @@ export class MenuItemsService {
   */
 
   async getMenuItems() {
+    const getChild = async (response: any, id) => {
+      response = await sequelize.query(
+        `SELECT * FROM menu_item where parentId=${0}`
+      );
+      if (response.parentId === 0) {
+        return;
+      }
+    };
     throw new Error('TODO in task 3');
   }
 }

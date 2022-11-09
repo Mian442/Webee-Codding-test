@@ -1,7 +1,7 @@
-import Controller from "../../core/controller";
-import { MenuItemsService } from "./menu-items.service";
-import App from "../../app";
-import { NextFunction, Request, Response } from "express";
+import Controller from '../../core/controller';
+import { MenuItemsService } from './menu-items.service';
+import App from '../../app';
+import { NextFunction, Request, Response } from 'express';
 
 export class MenuItemsController extends Controller {
   public path = '/menu-items';
@@ -16,7 +16,7 @@ export class MenuItemsController extends Controller {
   }
 
   public intializeRoutes() {
-    this.router.get(this.path.concat("/menu"), this.getMenuItems.bind(this));
+    this.router.get(this.path.concat('/menu'), this.getMenuItems.bind(this));
   }
 
   /*
@@ -94,7 +94,8 @@ export class MenuItemsController extends Controller {
  */
 
   async getMenuItems(req: Request, res: Response, next: NextFunction) {
-    return await this.menuItemService.getMenuItems()
+    return await this.menuItemService
+      .getMenuItems()
       .then((data) => {
         console.log(data);
         res.json(data);
