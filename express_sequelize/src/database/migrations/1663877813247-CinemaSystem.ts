@@ -40,7 +40,7 @@ export default {
           autoIncrement: true,
         },
         name: { type: 'varchar' },
-        screen: { type: 'varchar' },
+        ticket: { type: 'int' },
         description: { type: 'varchar' },
         createdAt: {
           type: 'timestamp',
@@ -51,7 +51,7 @@ export default {
           defaultValue: literal('CURRENT_TIMESTAMP'),
         },
       } as ModelAttributes);
-      await queryInterface.createTable('seats', {
+      await queryInterface.createTable('seat', {
         id: {
           type: 'integer',
           primaryKey: true,
@@ -60,6 +60,162 @@ export default {
         name: { type: 'varchar' },
         screen: { type: 'varchar' },
         description: { type: 'varchar' },
+        available: { type: 'boolean' },
+        seatAlphabet: { type: 'varchar' },
+        seatNumber: { type: 'integer' },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+      await queryInterface.createTable('movieTimes', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        time: { type: 'timestamp' },
+        description: { type: 'varchar' },
+        seatType: { type: 'varchar' },
+        movieId: {
+          type: 'integer',
+          allowNull: true,
+          references: {
+            model: {
+              tableName: 'movie',
+            },
+            key: 'id',
+          },
+          onDelete: 'cascade',
+        },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+      await queryInterface.createTable('screen', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        description: { type: 'varchar' },
+        name: { type: 'varchar' },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        isFull: { type: 'boolean' },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+      await queryInterface.createTable('seatsType', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        description: { type: 'varchar' },
+        name: { type: 'varchar' },
+        percentage: { type: 'integer' },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+      await queryInterface.createTable('screens_seat', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        screenId: {
+          type: 'integer',
+          allowNull: true,
+          references: {
+            model: {
+              tableName: 'screen',
+            },
+            key: 'id',
+          },
+          onDelete: 'cascade',
+        },
+        seatId: {
+          type: 'integer',
+          allowNull: true,
+          references: {
+            model: {
+              tableName: 'seat',
+            },
+            key: 'id',
+          },
+          onDelete: 'cascade',
+        },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+      await queryInterface.createTable('booking', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        screenId: {
+          type: 'integer',
+          allowNull: true,
+          references: {
+            model: {
+              tableName: 'screen',
+            },
+            key: 'id',
+          },
+          onDelete: 'cascade',
+        },
+        seatId: {
+          type: 'integer',
+          allowNull: true,
+          references: {
+            model: {
+              tableName: 'seat',
+            },
+            key: 'id',
+          },
+          onDelete: 'cascade',
+        },
+        movieId: {
+          type: 'integer',
+          allowNull: true,
+          references: {
+            model: {
+              tableName: 'movie',
+            },
+            key: 'id',
+          },
+          onDelete: 'cascade',
+        },
+        quantity: { type: 'integer' },
+        time: { type: 'timestamp' },
+        price: { type: 'integer' },
         createdAt: {
           type: 'timestamp',
           defaultValue: literal('CURRENT_TIMESTAMP'),
