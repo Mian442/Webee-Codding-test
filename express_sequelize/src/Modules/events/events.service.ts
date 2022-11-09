@@ -1,8 +1,9 @@
+import { dataSourceOptions } from '../../conf/datasource';
+import { QueryTypes, Sequelize } from 'sequelize';
 import Event from './entities/event.entity';
-
-
+import { IEvent } from './event';
+const sequelize = new Sequelize(dataSourceOptions);
 export class EventsService {
-
   async getWarmupEvents() {
     return await Event.findAll();
   }
@@ -85,7 +86,22 @@ export class EventsService {
      */
 
   async getEventsWithWorkshops() {
-    throw new Error('TODO task 1');
+    try {
+      let response: any = await sequelize.query('SELECT * FROM event');
+      const events: Array<IEvent> = response[0];
+      let result = [];
+      for (let i of events) {
+        const temp = await sequelize.query(
+          `SELECT * FROM workshop WHERE eventId=${i.id}`
+        );
+        result.push({ ...i, workshops: temp[0] });
+      }
+      return result;
+    } catch (err) {
+      console.error(err.message);
+      return err.message;
+    }
+    // throw new Error('TODO task 1');
   }
 
   /* TODO: complete getFutureEventWithWorkshops so that it returns events with workshops, that have not yet started

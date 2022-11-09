@@ -205,7 +205,7 @@ export default {
       ]);
     } catch (error) {
       // await queryRunner.rollbackTransaction();
-      throw error;
+      throw error.message;
     }
 
     // await queryRunner.commitTransaction();

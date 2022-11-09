@@ -1,4 +1,4 @@
-import { SequelizeOptions } from "sequelize-typescript/dist/sequelize/sequelize/sequelize-options";
+import { SequelizeOptions } from 'sequelize-typescript/dist/sequelize/sequelize/sequelize-options';
 
 export const dataSourceOptions = {
   dialect: 'sqlite',
@@ -8,5 +8,5 @@ export const dataSourceOptions = {
   define: {
     freezeTableName: true,
   },
-  models: [__dirname + '/../**/entities/*.entity.{js,ts}']
+  models: [__dirname + '/../**/entities/*.entity.{js,ts}'],
 } as SequelizeOptions;

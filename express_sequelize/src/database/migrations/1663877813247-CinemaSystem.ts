@@ -1,5 +1,5 @@
-import { QueryInterface } from 'sequelize';
-
+import { literal, QueryInterface } from 'sequelize';
+import { ModelAttributes } from 'sequelize/types/model';
 export default {
   /**
    # ToDo: Create a migration that creates all tables for the following user stories
@@ -31,12 +31,54 @@ export default {
    * As a cinema owner I don't want to configure the seating for every show
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  up: (queryInterface: QueryInterface): Promise<void> => {
-    throw new Error('TODO: implement migration in task 4');
+  up: async (queryInterface: QueryInterface) => {
+    try {
+      await queryInterface.createTable('movies', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        name: { type: 'varchar' },
+        screen: { type: 'varchar' },
+        description: { type: 'varchar' },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+      await queryInterface.createTable('seats', {
+        id: {
+          type: 'integer',
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        name: { type: 'varchar' },
+        screen: { type: 'varchar' },
+        description: { type: 'varchar' },
+        createdAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          type: 'timestamp',
+          defaultValue: literal('CURRENT_TIMESTAMP'),
+        },
+      } as ModelAttributes);
+    } catch (error) {
+      throw new Error(error);
+    }
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  down: (queryInterface: QueryInterface) => {
+  down: async (queryInterface: QueryInterface) => {
+    await queryInterface.dropTable('movies');
+    await queryInterface.dropTable('seats');
+
     // do nothing
   },
 };
